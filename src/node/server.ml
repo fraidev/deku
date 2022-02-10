@@ -19,8 +19,7 @@ let set_state state = (get ()).state <- state
 let rec reset_timeout server =
   Lwt.cancel server.timeout;
   server.timeout <-
-    [%await
-      let () = Lwt_unix.sleep 10.0 in
+    let%await () = Lwt_unix.sleep 10.0 in
       (match
          try_to_produce_block server.state (fun state ->
              server.state <- state;
@@ -29,7 +28,7 @@ let rec reset_timeout server =
       | Ok () -> ()
       | Error `Not_current_block_producer -> ());
       reset_timeout server;
-      Lwt.return_unit]
+      Lwt.return_unit
 ;;
 Flows.reset_timeout := fun () -> reset_timeout (get ());;
 Flows.get_state := get_state;;

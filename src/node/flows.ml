@@ -217,8 +217,7 @@ and block_added_to_the_pool state update_state block =
     let state = try_to_sign_block state update_state block in
     try_to_apply_block state update_state block
   else
-    [%assert
-      let () =
+    let%assert () =
         ( `Added_block_not_signed_enough_to_desync,
           Block_pool.is_signed ~hash:block.hash state.block_pool ) in
       let%assert () =
@@ -230,7 +229,7 @@ and block_added_to_the_pool state update_state block =
       | Some block -> block_added_to_the_pool state update_state block
       | None ->
         request_previous_blocks state block;
-        Ok ()]
+        Ok ()
 ;;
 block_added_to_the_pool' := block_added_to_the_pool
 let received_block state update_state block =
