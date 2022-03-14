@@ -29,6 +29,7 @@ jobs:
           config: >- # more at semgrep.dev/explore
             p/security-audit
             p/secrets
+            p/ocaml
 
         # == Optional settings in the `with:` block
 
